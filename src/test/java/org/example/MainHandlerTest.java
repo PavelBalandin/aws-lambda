@@ -5,6 +5,7 @@ import com.amazonaws.services.lambda.runtime.events.APIGatewayV2HTTPResponse;
 import org.example.domain.Currency;
 import org.example.exception.ResourceNotFoundException;
 import org.example.service.CurrencyService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -26,7 +27,7 @@ class MainHandlerTest {
     private static final String NOT_SPECIFY_CURRENCY_MESSAGE = "Currency not specified";
     private static final String CURRENCY_NAME = "name";
     private static final String CURRENCY_PRICE = "$100,000";
-    private static final String SUCCESSFUL_MESSAGE = "{\"value\":\"name\",\"price\":\"$100,000\"}";
+    private static final String SUCCESSFUL_MESSAGE = "{\"name\":\"name\",\"price\":\"$100,000\"}";
 
     @Mock
     Context context;
@@ -43,10 +44,10 @@ class MainHandlerTest {
         Currency currency = new Currency(CURRENCY_NAME, CURRENCY_PRICE);
         when(currencyService.getCurrencyByName(CURRENCY_NAME)).thenReturn(currency);
 
-        APIGatewayV2HTTPResponse response = instance.handleRequest(params, context);
+        APIGatewayV2HTTPResponse actual = instance.handleRequest(params, context);
 
-        assertEquals(SUCCESSFUL_STATUS_CODE, response.getStatusCode());
-        assertEquals(SUCCESSFUL_MESSAGE, response.getBody());
+        assertEquals(SUCCESSFUL_STATUS_CODE, actual.getStatusCode());
+        assertEquals(SUCCESSFUL_MESSAGE, actual.getBody());
     }
 
     @Test
@@ -54,20 +55,20 @@ class MainHandlerTest {
         Map<String, Object> params = Map.of("queryStringParameters", Map.of("currency", CURRENCY_NAME));
         when(currencyService.getCurrencyByName(CURRENCY_NAME)).thenThrow(ResourceNotFoundException.class);
 
-        APIGatewayV2HTTPResponse response = instance.handleRequest(params, context);
+        APIGatewayV2HTTPResponse actual = instance.handleRequest(params, context);
 
-        assertEquals(NOT_FOUND_STATUS_CODE, response.getStatusCode());
-        assertEquals(NOT_FOUND_MESSAGE, response.getBody());
+        assertEquals(NOT_FOUND_STATUS_CODE, actual.getStatusCode());
+        assertEquals(NOT_FOUND_MESSAGE, actual.getBody());
     }
 
     @Test
     void handleRequestShouldReturnSuccessfulStatusCodeWhenCurrencyNotSpecified() throws ResourceNotFoundException {
         Map<String, Object> params = Map.of("queryStringParameters", Collections.emptyMap());
 
-        APIGatewayV2HTTPResponse response = instance.handleRequest(params, context);
+        APIGatewayV2HTTPResponse actual = instance.handleRequest(params, context);
 
-        assertEquals(NOT_FOUND_STATUS_CODE, response.getStatusCode());
-        assertEquals(NOT_SPECIFY_CURRENCY_MESSAGE, response.getBody());
+        assertEquals(NOT_FOUND_STATUS_CODE, actual.getStatusCode());
+        assertEquals(NOT_SPECIFY_CURRENCY_MESSAGE, actual.getBody());
     }
 
 

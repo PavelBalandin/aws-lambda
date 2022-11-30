@@ -10,6 +10,6 @@ import lombok.Setter;
 @AllArgsConstructor
 @EqualsAndHashCode
 public class Currency {
-    private String value;
+    private String name;
     private String price;
 }

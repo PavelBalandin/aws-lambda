@@ -10,7 +10,7 @@ public class Parser {
     private static final String CURRENCY_SELECTOR = System.getenv("CURRENCY_SELECTOR");
 
     public String getCurrencyPrice(String name) throws IOException {
-        String url = String.format(CURRENCY_URL_PATTERN, name);
+        String url = String.format(System.getenv("CURRENCY_URL_PATTERN"), name);
         Document document = getDocumentByURL(url);
         return getTextBySelector(document);
     }
@@ -20,6 +20,6 @@ public class Parser {
     }
 
     protected String getTextBySelector(Document document) {
-        return document.select(Parser.CURRENCY_SELECTOR).text().trim();
+        return document.select(System.getenv("CURRENCY_SELECTOR")).text().trim();
     }
 }

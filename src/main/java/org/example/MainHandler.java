@@ -7,6 +7,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
 import lombok.Setter;
+import org.example.dao.CurrencyDAO;
+import org.example.dao.DynamoDBSource;
 import org.example.domain.Currency;
 import org.example.exception.ResourceNotFoundException;
 import org.example.service.CurrencyService;
@@ -30,7 +32,7 @@ public class MainHandler implements RequestHandler<Map<String, Object>, APIGatew
     private CurrencyService currencyService;
 
     public MainHandler() {
-        this.currencyService = new CurrencyService(new Parser());
+        this.currencyService = new CurrencyService(new Parser(), new CurrencyDAO(DynamoDBSource.getInstance()));
     }
 
     @Override

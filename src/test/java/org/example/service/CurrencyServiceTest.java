@@ -1,5 +1,6 @@
 package org.example.service;
 
+import org.example.dao.CurrencyDAO;
 import org.example.domain.Currency;
 import org.example.exception.ResourceNotFoundException;
 import org.junit.jupiter.api.Test;
@@ -7,7 +8,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import uk.org.webcompere.systemstubs.jupiter.SystemStubsExtension;
 
 import java.io.IOException;
 
@@ -23,6 +23,9 @@ class CurrencyServiceTest {
 
     @Mock
     Parser parser;
+
+    @Mock
+    CurrencyDAO currencyDAO;
 
     @InjectMocks
     CurrencyService instance;
