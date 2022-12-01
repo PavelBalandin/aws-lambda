@@ -26,7 +26,7 @@ public class CurrencyDAO {
         Table table = dynamoDB.getTable(DYNAMODB_TABLE_NAME);
         Item item = table.getItem("currency", name);
 
-        return new Currency((String) item.get("name"), (String) item.get("price"));
+        return new Currency(item.getString("name"), item.getString("price"));
     }
 
     public void saveCurrency(Currency currency) throws ConditionalCheckFailedException {

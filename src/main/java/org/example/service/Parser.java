@@ -6,9 +6,6 @@ import org.jsoup.nodes.Document;
 import java.io.IOException;
 
 public class Parser {
-    private static final String CURRENCY_URL_PATTERN = System.getenv("CURRENCY_URL_PATTERN");
-    private static final String CURRENCY_SELECTOR = System.getenv("CURRENCY_SELECTOR");
-
     public String getCurrencyPrice(String name) throws IOException {
         String url = String.format(System.getenv("CURRENCY_URL_PATTERN"), name);
         Document document = getDocumentByURL(url);
