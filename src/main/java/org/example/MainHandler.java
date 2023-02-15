@@ -34,7 +34,11 @@ public class MainHandler implements RequestHandler<Map<String, Object>, APIGatew
     public MainHandler() {
         this.currencyService = new CurrencyService(new Parser(), new CurrencyDAO(DynamoDBSource.getInstance()));
     }
-
+    /*
+    * Try to replace Map<String, Object> to APIGatewayV2HTTPEvent
+    * For this one method it looks like an attempt parse ready object to map of object (json to map) (extractStringParams)
+    * Need to do it in proper way
+    * */
     @Override
     public APIGatewayV2HTTPResponse handleRequest(Map<String, Object> map, Context context) {
         Map<String, String> params = extractStringParams(map);
